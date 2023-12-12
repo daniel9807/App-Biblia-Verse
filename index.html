@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5271ff" />
+     <meta name="description" content="Web que facilita la busqueda de los Versiculos y libros.">
+    <link rel="shortcut icon" href="/img/Pray-rafiki.svg" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      #loader {
+        background: white;
+        width: 100%;
+        height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 9999;
+        animation: loader 2s linear forwards;
+      }
+
+      @keyframes loader {
+        0% {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        96% {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        100% {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+
+      #loader div {
+        background: #eecc75;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin: 10px;
+        transform: scale(0);
+        animation: scaling 2s ease-in-out infinite;
+      }
+
+      #loader div:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+
+      #loader div:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+
+      #loader div:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes scaling {
+        0%,
+        100% {
+          transform: scale(0.2);
+        }
+
+        20% {
+          transform: scale(1.1);
+        }
+
+        40% {
+          transform: scale(1.1);
+        }
+
+        50% {
+          transform: scale(1.4);
+        }
+      }
+    </style>
+    <title>Biblia Verse</title>
+  </head>
+  <body>
+    <section id="loader">
+      <div></i></div>
+      <div></div>
+      <div></div>
+    </section>
+    <span class="linea-header"></span>
+    <header class="header">
+      <img src="/img/Biblia.png" alt="Logo" class="logo" />
+      <form action="#" autocomplete="off" class="form">
+        <input
+          type="text"
+          name="Buscador"
+          placeholder="Ej: génesis,1:1"
+          class="buscador"
+        />
+        <button type="submit" id="buscar" class="btn-buscar" title="Buscar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <p class="tooltip tooltip-none">Buscar</p>
+        </button>
+        <div class="content-list">
+          <ul class="list"></ul>
+        </div>
+        <button id="voz" class="btn-voz" title="Voz">
+          <i class="fa-solid fa-microphone"></i>
+          <p class="tooltip2 tooltip-none">Ház Búsqueda por voz</p>
+        </button>
+      </form>
+    </header>
+
+    <dialog id="dialog">
+      <h2 id="texth2" class="txt-dialog">Iniciar Búsqueda por Voz</h2>
+      <p id="result" class="result-text"></p>
+      <i id="hide" class="fa-solid fa-xmark"></i>
+      <button type="submit" id="startButton" class="btn-start" title="Voz">
+        <i class="fa-solid fa-microphone"></i>
+      </button>
+      <p class="text-pa"></p>
+    </dialog>
+
+    <div id="selector-theme" class="btn-libros" title="Libros">
+      <p class="title-libros">Libros</p>
+      <i class="fa-solid fa-book-bible"></i>
+    </div>
+    <div class="caja-libros">
+      <i id="hides" class="fa-solid fa-xmark d"></i>
+      <h2 class="title-libros2">Libros</h2>
+      <ul class="ul"></ul>
+    </div>
+    <div class="caja-capitulos">
+      <i id="back" class="fa-solid fa-arrow-left"></i>
+      <i id="hides2" class="fa-solid fa-xmark d"></i>
+      <h2 class="title-libros2 c">Capitulos</h2>
+      <ul class="ul2">
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+        <li class="listas3"></li>
+      </ul>
+    </div>
+    <div class="caja-versiculos">
+      <i id="back2" class="fa-solid fa-arrow-left"></i>
+      <i id="hides3" class="fa-solid fa-xmark d"></i>
+      <h2 class="title-libros2 v">Versiculos</h2>
+      <ul class="ul3"></ul>
+    </div>
+
+    <section class="content">
+      <div class="container">
+        <h1 class="title-info">
+          Web que facilita la busqueda de los Versiculos y libros. 📖
+        </h1>
+        <br />
+        <h3 class="capitulos">Disfrutala 🏳️</h3>
+      </div>
+    </section>
+
+    <footer class="footer">
+      2023 App Biblia Verse &copy;
+      <ul class="redes">
+        <li>
+          <a href="https://www.linkedin.com/in/daniel-muñoz-constantine">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/daniel9807"
+            ><i class="fa-brands fa-square-github"></i
+          ></a>
+        </li>
+      </ul>
+    </footer>
+
+    <script type="module" src="/src/libros.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/navigation.js"></script>
+    <script type="module" src="/src/secreto.js"></script>
+  </body>
+</html>

@@ -1,0 +1,331 @@
+@media (max-width: 870px) {
+    .header {
+        height: 140px;
+    }
+
+    .logo {
+        height: 200px;
+        width: 200px;
+    }
+
+    .buscador[type=text] {
+        width: 230px;
+    }
+
+    .btn-voz {
+        margin-left: 20px;
+    }
+
+    .tooltip {
+        width: 60px;
+        font-size: 0.75rem;
+    }
+
+    .tooltip2 {
+        left: 35%;
+        font-size: 0.75rem;
+        width: 135px;
+    }
+
+    .title-info {
+        font-size: 1.3rem;
+    }
+
+    .content-list {
+        width: 230px;
+        top: 13.5%;
+        right: 157px;
+    }
+
+    .form {
+        padding-right: 38px;
+    }
+
+    .container,
+    .caja-title {
+        height: 81vh;
+    }
+}
+
+@media (max-width: 670px) {
+    .header {
+        height: auto;
+        flex-direction: column;
+    }
+
+    .container,
+    .caja-title {
+        height: 75vh;
+    }
+
+    .logo {
+        margin-top: 0px;
+    }
+
+    .form {
+        justify-content: center;
+        padding-right: 0px;
+    }
+
+    .tooltip-none {
+        display: none;
+    }
+
+    .title-info {
+        font-size: 1.3rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    .logito {
+        width: 40%;
+    }
+
+    .content-list {
+        top: 278px;
+        right: auto;
+        margin-left: -119px;
+    }
+
+    .btn-libros {
+        top: 350px;
+    }
+
+    .caja-libros {
+        top: 400px;
+    }
+
+    .caja-capitulos,
+    .caja-versiculos {
+        top: 400px;
+        width: 300px;
+    }
+
+    .c,
+    .v {
+        width: auto;
+    }
+
+    .listas2 {
+        padding: 10px;
+    }
+
+    .listas3 {
+        padding: 5px;
+        width: 36px;
+        height: 40px;
+    }
+
+    #dialog {
+        width: 350px;
+    }
+
+    .txt-dialog {
+        font-size: 1.1rem;
+    }
+
+    .parrafo {
+        font-size: 1.1rem;
+    }
+
+    .btn-start {
+        left: 40%;
+    }
+
+    .text-pa {
+        width: 85%;
+        top: 340px;
+        left: 25px;
+    }
+
+    .footer {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 590px) {
+    .title-info {
+        font-size: 1.2rem;
+        width: 64%;
+    }
+
+    h3 {
+        font-size: 0.838rem;
+    }
+}
+
+@media (max-width: 444px) {
+    .title-info {
+        font-size: 1.1rem;
+        width: 70%;
+    }
+
+    h3 {
+        font-size: 0.838rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .buscador[type=text] {
+        width: 200px;
+
+        margin: 0px;
+        padding: 12px;
+    }
+
+    .btn-buscar {
+        height: 45px;
+    }
+
+    .btn-voz {
+        width: 40px;
+        height: 41px;
+    }
+
+    .content-list {
+        top: 253px;
+        width: 200px;
+        margin-left: -110px;
+    }
+
+    .parrafo {
+        font-size: 1rem;
+    }
+
+    .title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    .capitulos {
+        font-size: 1.1rem;
+    }
+
+    .caja-texto {
+        padding: 10px;
+        width: 64%;
+    }
+
+    .footer {
+        font-size: 0.813rem;
+    }
+
+    .container,
+    .caja-title {
+        height: 65vh;
+    }
+}
+
+@media (max-width: 390px) {
+
+    #dialog {
+        width: 300px;
+    }
+
+    .txt-dialog {
+        font-size: 1rem;
+    }
+
+    .btn-start {
+        left: 38%;
+    }
+
+    .text-pa {
+        font-size: 0.9rem;
+        width: 90%;
+        top: 340px;
+        left: 16px;
+    }
+
+    .footer {
+        font-size: 0.713rem;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #282a36;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+        color: #EEEEEE;
+    }
+
+    .buscador[type=text] {
+        background-color: #202327;
+        border: 1px solid #202327;
+        color: #EEEEEE;
+    }
+
+    .buscador[type=text]::placeholder {
+        color: #EEEEEE;
+    }
+
+    .btn-buscar {
+        background-color: #202327;
+        border: 1px solid #EEEEEE;
+    }
+
+    .btn-buscar:hover {
+        border: 1px solid #EEEEEE;
+    }
+
+
+    .btn-voz:hover {
+        background-color: #202327;
+        border: #5271ff;
+    }
+
+    .content-list {
+        background: #202327;
+        color: #EEEEEE;
+    }
+
+    .listas:hover,
+    .listas2:hover {
+        background-color: #727171;
+    }
+
+    #dialog {
+        backdrop-filter: blur(5px);
+        background-color: #2e303b;
+        box-shadow: 1px 1px 10px #fffefe;
+    }
+
+    .btn-libros {
+        background-color: #202327;
+        box-shadow: 1px 1px 10px #d1d1d1;
+    }
+
+    .fa-book-bible {
+        color: #5271ff;
+    }
+
+    .caja-libros,
+    .caja-capitulos,
+    .caja-versiculos {
+        background-color: #202327;
+        color: #EEEEEE;
+    }
+
+    .title-libros2 {
+        background-color: #393c4b;
+    }
+
+    .logo {
+        filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 1.0));
+    }
+
+    .fa-linkedin {
+        color: #5271ff;
+    }
+
+    .fa-square-github {
+        color: #5271ff;
+    }
+}
