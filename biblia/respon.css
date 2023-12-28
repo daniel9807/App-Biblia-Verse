@@ -37,7 +37,7 @@
     }
 
     .btn-vers {
-        margin: -15px 0px 10px 0px;
+        margin: 0px 0px 15px 0px;
         text-align: center;
         height: 40px;
     }
@@ -348,6 +348,10 @@
     .btn-libros {
         background-color: #202327;
         box-shadow: 1px 1px 10px #d1d1d1;
+    }
+
+    .btn-vers {
+        color: #EEEEEE;
     }
 
     .fa-book-bible {
