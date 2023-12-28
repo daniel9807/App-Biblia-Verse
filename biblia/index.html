@@ -13,9 +13,10 @@
       media="(prefers-color-scheme: dark)"
       content="#282a36"
     />
+
     <meta
       name="description"
-      content="Web que facilita la busqueda de los Versiculos y libros."
+      content="Web que facilita la busqueda de los libros por capitulos."
     />
     <link rel="shortcut icon" href="/img/Pray-rafiki.svg" type="image/x-icon" />
     <link
@@ -25,7 +26,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-
+    <title>Biblia Verse</title>
     <style>
       #loader {
         background: white;
@@ -97,7 +98,6 @@
         }
       }
     </style>
-    <title>Biblia Verse</title>
   </head>
   <body>
     <section id="loader">
@@ -108,12 +108,12 @@
     <span class="linea-header"></span>
     <header class="header">
       <img src="/img/Biblia.png" alt="Logo" class="logo" />
-      <a href="/biblia/index.html" class="btn-capi">Buscar por Capitulos</a>
+      <a href="/index.html" class="btn-vers">Buscar por Versiculos</a>
       <form action="#" autocomplete="off" class="form">
         <input
           type="text"
           name="Buscador"
-          placeholder="Ej: génesis,1:1"
+          placeholder="Ej: génesis,1"
           class="buscador"
         />
         <button type="submit" id="buscar" class="btn-buscar" title="Buscar">
@@ -164,17 +164,10 @@
         <li class="listas3"></li>
       </ul>
     </div>
-    <div class="caja-versiculos">
-      <i id="back2" class="fa-solid fa-arrow-left"></i>
-      <i id="hides3" class="fa-solid fa-xmark d"></i>
-      <h2 class="title-libros2 v">Versiculos</h2>
-      <ul class="ul3"></ul>
-    </div>
-
     <section class="content">
       <div class="container">
         <h1 class="title-info">
-          Web que facilita la búsqueda de los Versículos por cada libro. 📖
+          Web que facilita la búsqueda de los libros por capítulos. 📖
         </h1>
         <br />
         <h3 class="capitulos">Disfrútala 🏳️</h3>
@@ -197,9 +190,9 @@
       </ul>
     </footer>
 
-    <script type="module" src="/src/libros.js"></script>
-    <script type="module" src="/src/main.js"></script>
-    <script type="module" src="/src/navigation.js"></script>
-    <script type="module" src="/src/secreto.js"></script>
+    <script type="module" src="/biblia/biblia.js"></script>
+    <script type="module" src="/biblia/libros.js"></script>
+    <script type="module" src="/biblia/navigation.js"></script>
+    <script type="module" src="/biblia/secreto.js"></script>
   </body>
 </html>

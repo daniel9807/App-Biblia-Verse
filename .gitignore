@@ -151,3 +151,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 >>>>>>> 9ed6e4901828caca53f9a1da1c2c60f1fe316ada
+
+# Local Netlify folder
+.netlify

@@ -1,20 +1,19 @@
-import "../src/styles/style.css";
-import "../src/styles/respon.css";
-import { libros } from "../src/libros";
+import "../biblia/style.css";
+import "../biblia/respon.css";
+import { libros } from "../biblia/libros";
 import "/img/transistor-404.png";
 
 const container = document.querySelector(".container");
 const form = document.querySelector(".form");
+const footer = document.querySelector(".footer");
 const input = document.querySelector(".buscador");
 const lists = document.querySelector(".list");
 export const cajaBtn = document.createElement("div");
 cajaBtn.className = "btn-caja";
 
-let currentVerses = 1;
+let currentChapter = 1;
 let concurreBooks = "";
-let vozNum;
-var numerVer = 0;
-var numerCap = 0;
+
 export const baseURL =
   "https://ajphchgh0i.execute-api.us-west-2.amazonaws.com/dev/api";
 
@@ -23,37 +22,43 @@ export function obtenerVersiculos(data, clean = true) {
     container.innerHTML = "";
     cajaBtn.innerHTML = "";
   }
-  const remplaNum = /\d/g;
   try {
     const libro = document.createElement("h1");
-    const bibleIcon =
-      "Libro  <i class='fa-solid fa-book-bible style=color: #292929'></i>";
-    libro.innerHTML = bibleIcon;
     libro.className = "title";
+
     const apiError = document.createElement("img");
     apiError.src = "/img/transistor-404.png";
     apiError.alt = "Logo Error de Búsqueda";
+
     const itemsChapter = [];
+
     data.forEach((item) => {
-      const cajaTexto = document.createElement("div");
+      const cajaTexto = document.createElement("p");
       cajaTexto.className = "caja-texto";
 
-      const capitulo = document.createElement("h3");
-      capitulo.textContent =
-        item && item.reference ? item.reference : "Referencia no disponible";
-      capitulo.className = "capitulos";
+      const libros = document.createElement("h1");
+      const title = item.reference;
+      libro.textContent = title.replace(/[:.]\d+$/, "");
 
       const parrafos = document.createElement("p");
-      parrafos.textContent = ((item && item.cleanText) || apiError).replace(
-        remplaNum,
-        ""
-      );
+      const textoVersiculo =
+        item && item.cleanText.replace(/^(\d+)(.*)/, "$1 $2").trim();
+      parrafos.textContent = textoVersiculo;
       parrafos.className = "parrafo";
 
-      cajaTexto.append(capitulo, parrafos);
+      footer.style.visibility = "visible";
+      footer.style.opacity = "1";
+
+      cajaTexto.append(libros, parrafos);
       itemsChapter.push(cajaTexto);
     });
-    container.append(cajaBtn, libro, ...itemsChapter);
+    const itemsChapterOrdenados = itemsChapter.sort((a, b) => {
+      const numeroA = parseInt(a.textContent.match(/^\d+/)[0]);
+      const numeroB = parseInt(b.textContent.match(/^\d+/)[0]);
+      return numeroA - numeroB;
+    });
+
+    container.append(cajaBtn, libro, ...itemsChapterOrdenados);
   } catch (error) {
     console.error("Error al obtener versículos:", error);
     const apiError = document.createElement("img");
@@ -77,61 +82,15 @@ export async function getApi(books, verses) {
     const res = await fetch(`${baseURL}/books/${books}/verses/${verses}`);
     const data = await res.json();
     obtenerVersiculos(data, true);
+
     // Actualizar el capítulo actual después de obtener los versículos
-    currentVerses = parseInt(verses.split(":")[1], 10);
+    currentChapter = parseInt(verses, 10);
     concurreBooks = books;
-    vozNum = verses;
-    await getCapitulos();
-    updateVerseButtons(numerVer, numerCap);
+    updateChapterButtons(data.length);
   } catch (error) {
     console.error("Error al obtener versículos:", error);
   } finally {
     isFetching = false;
-  }
-}
-
-export async function getCapitulos() {
-  try {
-    const res = await fetch(`${baseURL}/books/`);
-    const data = await res.json();
-    const selectedLibro = libros.find(
-      (libro) => libro.chapter === concurreBooks
-    );
-    const capi = selectedLibro?.posicion;
-    if (data && capi !== undefined) {
-      let found = null;
-      const info = data[capi];
-      const cha2 = info.chapters;
-      if (input.value && input.value.includes(",")) {
-        const [nom, num] = input.value.split(",");
-        var [num1, num2] = num.split(":");
-        numerCap = num1;
-      }
-      if (vozNum == vozNum) {
-        var [num1, num2] = vozNum.split(":");
-        numerCap = num1;
-      }
-      cha2.forEach((chapter) => {
-        const textos = [chapter];
-        const encontre = textos.find((el) => el.chapter == parseInt(num1));
-        if (encontre && encontre.osis_end) {
-          found = encontre.osis_end;
-        }
-      });
-      if (found) {
-        let ultimosDosDigitoss = found.slice(-2);
-        if (ultimosDosDigitoss && ultimosDosDigitoss.includes(".")) {
-          const ultimosDosDigitos = found.slice(-1);
-          const numV = parseInt(ultimosDosDigitos);
-          numerVer = numV;
-        } else {
-          const numV = parseInt(ultimosDosDigitoss);
-          numerVer = numV;
-        }
-      }
-    }
-  } catch (error) {
-    console.error("Error fetching chapters:", error);
   }
 }
 
@@ -140,12 +99,18 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (b) {
     b.preventDefault();
     const query = input.value.replace(/\s/g, "");
-    const [bi, ve] = query.split(",");
+    const [bi = "", ca = ""] = query.split(",");
+
     libros.forEach((libro) => {
       if (libro.name == bi) {
         const lo = libro.chapter;
-        if (ve.length > 1) {
-          getApi(lo, ve);
+        if (ca.length >= 1) {
+          container.style.height = "auto";
+          container.style.margin = "90px 0px 40px 0px";
+          container.innerHTML = " ";
+          footer.style.visibility = "hidden";
+          footer.style.opacity = "0";
+          getApi(lo, ca);
         }
       }
     });
@@ -156,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const bookNames = libros.map((libro) => libro.name);
     const inputValue = input.value.toLowerCase();
     const suggestions = [];
-
     if (inputValue.trim() === "") {
       clearSuggestions();
     } else {
@@ -195,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-function updateVerseButtons(totalVerses, capitulo) {
+function updateChapterButtons(totalChapters) {
   // Eliminar botones anteriores si existen
   const existingButtons = document.querySelectorAll(
     ".chapter-button-previous, .chapter-button-next"
@@ -205,24 +169,46 @@ function updateVerseButtons(totalVerses, capitulo) {
   const previousButton = document.createElement("button");
   const btnPre = '<i class="fa-solid fa-circle-chevron-left ;"></i>';
   previousButton.innerHTML = btnPre;
-  previousButton.addEventListener("click", async () => {
-    if (currentVerses > 1) {
-      currentVerses = currentVerses - 1;
-      getApi(concurreBooks, `${capitulo}:${currentVerses}`);
+  previousButton.addEventListener("click", () => {
+    if (currentChapter > 1) {
+      getApi(concurreBooks, currentChapter - 1);
     }
   });
 
   const nextButton = document.createElement("button");
   const btnNext = '<i class="fa-solid fa-circle-chevron-right ;"></i>';
   nextButton.innerHTML = btnNext;
-  nextButton.addEventListener("click", async () => {
-    if (currentVerses < totalVerses) {
-      currentVerses = currentVerses + 1;
-      getApi(concurreBooks, `${capitulo}:${currentVerses}`);
+  nextButton.addEventListener("click", () => {
+    if (currentChapter < totalChapters) {
+      getApi(concurreBooks, currentChapter + 1);
     }
   });
+
+  // Eliminar manejadores de eventos anteriores
+  previousButton.removeEventListener("click", previousButtonClickHandler);
+  nextButton.removeEventListener("click", nextButtonClickHandler);
+
+  // Agregar los nuevos manejadores de eventos
+  previousButton.addEventListener("click", () =>
+    previousButtonClickHandler(totalChapters)
+  );
+  nextButton.addEventListener("click", () =>
+    nextButtonClickHandler(totalChapters)
+  );
 
   // Agregar los nuevos botones al contenedor
   cajaBtn.appendChild(previousButton).className = "chapter-button-previous";
   cajaBtn.appendChild(nextButton).className = "chapter-button-next";
+}
+
+function previousButtonClickHandler(totalChapters) {
+  if (currentChapter > 1) {
+    getApi(concurreBooks, currentChapter - 1);
+  }
+}
+
+function nextButtonClickHandler(totalChapters) {
+  if (currentChapter < totalChapters) {
+    getApi(concurreBooks, currentChapter + 1);
+  }
 }

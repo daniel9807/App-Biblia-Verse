@@ -1,28 +1,25 @@
-import "../src/styles/style.css";
-import "../src/styles/respon.css";
-import { libros } from "../src/libros.js";
-import { obtenerVersiculos, baseURL, cajaBtn } from "../src/main.js";
+import "../biblia/style.css";
+import "../biblia/respon.css";
+import { libros } from "../biblia/libros.js";
+import { obtenerVersiculos, baseURL, cajaBtn } from "../biblia/biblia.js";
 
 const btnLibros = document.querySelector("#selector-theme");
 const cajaLibros = document.querySelector(".caja-libros");
 const cajaCapitulos = document.querySelector(".caja-capitulos");
-const cajaVersiculos = document.querySelector(".caja-versiculos");
+const footer = document.querySelector(".footer");
+const container = document.querySelector(".container");
 
-let currentVerses = 1;
-let concurreBooks = "";
-var cantidadVer = 0;
 const closeModalButtons = [
   document.querySelector("#hides"),
   document.querySelector("#hides2"),
-  document.querySelector("#hides3"),
 ];
-const backButtons = [
-  document.querySelector("#back"),
-  document.querySelector("#back2"),
-];
+const backButtons = document.querySelector("#back");
+
 const ul = document.querySelector(".ul");
 const ul2 = document.querySelector(".ul2");
-const ul3 = document.querySelector(".ul3");
+
+let currentChapter = 1;
+let concurreBooks = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   btnLibros.addEventListener("click", function (b) {
@@ -36,8 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 closeModalButtons.forEach((closeButton, index) => {
   closeButton.addEventListener("click", () => {
-    const modal =
-      index === 0 ? cajaLibros : index === 1 ? cajaCapitulos : cajaVersiculos;
+    const modal = index === 0 ? cajaLibros : index === 1 ? cajaCapitulos : "";
     modal.style.visibility = "hidden";
     modal.style.opacity = "0";
     btnLibros.style.transition = "transform 0.8s ease-out";
@@ -45,15 +41,11 @@ closeModalButtons.forEach((closeButton, index) => {
   });
 });
 
-backButtons.forEach((backButton, index) => {
-  backButton.addEventListener("click", () => {
-    const currentModal = index === 0 ? cajaLibros : cajaCapitulos;
-    const nextModal = index === 0 ? cajaCapitulos : cajaVersiculos;
-    currentModal.style.visibility = "visible";
-    currentModal.style.opacity = "1";
-    nextModal.style.visibility = "hidden";
-    nextModal.style.opacity = "0";
-  });
+backButtons.addEventListener("click", () => {
+  cajaLibros.style.visibility = "visible";
+  cajaLibros.style.opacity = "1";
+  cajaCapitulos.style.visibility = "hidden";
+  cajaCapitulos.style.opacity = "0";
 });
 
 function iteraciones(cantidad) {
@@ -84,11 +76,13 @@ export async function getApis(books, verses) {
     const res = await fetch(`${baseURL}/books/${books}/verses/${verses}`);
     const data = await res.json();
     obtenerVersiculos(data, true);
-    currentVerses = parseInt(verses.split(":")[1], 10);
+
+    currentChapter = parseInt(verses, 10);
     concurreBooks = books;
 
     await getCapitulos();
-    updateVerseButtons(cantidadVer, cajaCapitulos.value);
+
+    updateChapterButtons(data.length);
   } catch (error) {
     console.error("Error al obtener versículos:", error);
   } finally {
@@ -119,6 +113,11 @@ function containerLibros() {
           cajaCapitulos.style.visibility = "visible";
           cajaCapitulos.style.opacity = "1";
 
+          container.style.height = "auto";
+          container.style.margin = "90px 0px 40px 0px";
+          container.innerHTML = " ";
+          footer.style.visibility = "hidden";
+          footer.style.opacity = "0";
           containerCapitulos();
           getCapitulos();
         }
@@ -148,7 +147,6 @@ function containerLibros() {
 function containerCapitulos(data) {
   const selectedLibro = libros.find((libro) => libro.name === cajaLibros.value);
   const capi = selectedLibro?.posicion;
-
   if (data && capi !== undefined) {
     const info = data[capi];
     const chap = info.chapters;
@@ -159,11 +157,14 @@ function containerCapitulos(data) {
     if (e.target.tagName === "LI") {
       cajaCapitulos.value = e.target.textContent;
       if (cajaCapitulos.value === cajaCapitulos.value) {
-        cajaCapitulos.style.visibility = "hidden";
-        cajaCapitulos.style.opacity = "0";
-        cajaVersiculos.style.visibility = "visible";
-        cajaVersiculos.style.opacity = "1";
-        containerVersiculos(data);
+        libros.forEach((libro) => {
+          const li = cajaLibros.value;
+          if (libro.name == li) {
+            const lo = libro.chapter;
+            const numero = cajaCapitulos.value;
+            getApis(lo, numero);
+          }
+        });
       }
     }
   });
@@ -184,68 +185,7 @@ function containerCapitulos(data) {
   }
 }
 
-function containerVersiculos(data) {
-  const selectedLibro = libros.find((libro) => libro.name === cajaLibros.value);
-  const capi = selectedLibro?.posicion;
-  if (data && capi !== undefined) {
-    let found = null;
-    const info = data[capi];
-    const chaps = info.chapters;
-    const numer = cajaCapitulos.value;
-
-    chaps.forEach((chapter) => {
-      const textos = [chapter];
-      const encontre = textos.find((el) => el.chapter == numer);
-      if (encontre) {
-        found = encontre.osis_end;
-      }
-    });
-    let ultimosDosDigitoss = found.slice(-2);
-    if (ultimosDosDigitoss && ultimosDosDigitoss.includes(".")) {
-      const ultimosDosDigitos = found.slice(-1);
-      var num = parseInt(ultimosDosDigitos);
-      cantidadVer = num;
-      displaySuggestions(iteraciones(num), ul3);
-    } else {
-      var num = parseInt(ultimosDosDigitoss);
-      cantidadVer = num;
-      displaySuggestions(iteraciones(num), ul3);
-    }
-
-    ul3.addEventListener("click", (e) => {
-      if (e.target.tagName === "LI") {
-        cajaVersiculos.value = e.target.textContent;
-        libros.forEach((libro) => {
-          const li = cajaLibros.value;
-          if (libro.name == li) {
-            const lo = libro.chapter;
-            const union = cajaCapitulos.value + ":" + cajaVersiculos.value;
-            getApis(lo, union);
-          }
-        });
-      }
-    });
-
-    function displaySuggestions(suggestions) {
-      clearSuggestions();
-
-      suggestions.forEach((suggestion) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = suggestion;
-        listItem.className = "listas2";
-
-        ul3.appendChild(listItem);
-      });
-    }
-
-    function clearSuggestions() {
-      while (ul3.firstChild) {
-        ul3.removeChild(ul3.firstChild);
-      }
-    }
-  }
-}
-function updateVerseButtons(totalVerses, capitulo) {
+function updateChapterButtons(totalChapters) {
   // Eliminar botones anteriores si existen
   const existingButtons = document.querySelectorAll(
     ".chapter-button-previous, .chapter-button-next"
@@ -255,24 +195,46 @@ function updateVerseButtons(totalVerses, capitulo) {
   const previousButton = document.createElement("button");
   const btnPre = '<i class="fa-solid fa-circle-chevron-left ;"></i>';
   previousButton.innerHTML = btnPre;
-  previousButton.addEventListener("click", async () => {
-    if (currentVerses > 1) {
-      currentVerses = currentVerses - 1;
-      getApis(concurreBooks, `${capitulo}:${currentVerses}`);
+  previousButton.addEventListener("click", () => {
+    if (currentChapter > 1) {
+      getApis(concurreBooks, currentChapter - 1);
     }
   });
 
   const nextButton = document.createElement("button");
   const btnNext = '<i class="fa-solid fa-circle-chevron-right ;"></i>';
   nextButton.innerHTML = btnNext;
-  nextButton.addEventListener("click", async () => {
-    if (currentVerses < totalVerses) {
-      currentVerses = currentVerses + 1;
-      getApis(concurreBooks, `${capitulo}:${currentVerses}`);
+  nextButton.addEventListener("click", () => {
+    if (currentChapter < totalChapters) {
+      getApis(concurreBooks, currentChapter + 1);
     }
   });
+
+  // Eliminar manejadores de eventos anteriores
+  previousButton.removeEventListener("click", previousButtonClickHandler);
+  nextButton.removeEventListener("click", nextButtonClickHandler);
+
+  // Agregar los nuevos manejadores de eventos
+  previousButton.addEventListener("click", () =>
+    previousButtonClickHandler(totalChapters)
+  );
+  nextButton.addEventListener("click", () =>
+    nextButtonClickHandler(totalChapters)
+  );
 
   // Agregar los nuevos botones al contenedor
   cajaBtn.appendChild(previousButton).className = "chapter-button-previous";
   cajaBtn.appendChild(nextButton).className = "chapter-button-next";
+}
+
+function previousButtonClickHandler(totalChapters) {
+  if (currentChapter > 1) {
+    getApis(concurreBooks, currentChapter - 1);
+  }
+}
+
+function nextButtonClickHandler(totalChapters) {
+  if (currentChapter < totalChapters) {
+    getApis(concurreBooks, currentChapter + 1);
+  }
 }

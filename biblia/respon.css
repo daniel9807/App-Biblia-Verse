@@ -5,11 +5,11 @@
     }
 
     .buscador[type=text] {
-        width: 250px;
+        width: 230px;
     }
 
     .content-list {
-        width: 248px;
+        width: 230px;
         top: 115px;
         right: 170px;
     }
@@ -21,11 +21,13 @@
     .btn-caja {
         grid-gap: 400px;
     }
+
+
 }
 
 @media (max-width: 870px) {
     .header {
-        height: 220px;
+        height: fit-content;
         flex-direction: column;
     }
 
@@ -34,25 +36,9 @@
         width: 200px;
     }
 
-    .btn-capi {
+    .btn-vers {
         margin: -15px 0px 20px 0px;
         text-align: center;
-    }
-
-    .form {
-        justify-content: center;
-        padding-right: 0px;
-        width: 100%;
-    }
-
-
-    .chapter-button-previous,
-    .chapter-button-next {
-        font-size: 40px;
-    }
-
-    .buscador[type=text] {
-        width: 210px;
     }
 
     .btn-voz {
@@ -75,17 +61,32 @@
     }
 
     .content-list {
-        width: 210px;
-        top: 10.5%;
-        right: 157px;
+        top: 316px;
+        right: auto;
+        margin-left: -119px;
+    }
+
+    .form {
+        justify-content: center;
+        padding-right: 0px;
+        width: 100%;
+    }
+
+    .btn-caja {
+        top: 600px;
+    }
+
+    .chapter-button-previous,
+    .chapter-button-next {
+        font-size: 40px;
     }
 
     .caja-title {
         height: 81vh;
     }
 
-    .content {
-        height: 81vh;
+    .container {
+        height: 70vh;
     }
 }
 
@@ -116,7 +117,7 @@
     }
 
     .content-list {
-        top: 285px;
+        top: 316px;
         right: auto;
         margin-left: -119px;
     }
@@ -175,6 +176,10 @@
     .footer {
         font-size: 0.875rem;
     }
+
+    .container {
+        height: 60vh;
+    }
 }
 
 @media (max-width: 590px) {
@@ -188,8 +193,9 @@
     }
 
     .btn-caja {
-        grid-gap: 200px;
-        top: 150px;
+        grid-template-columns: 50px 50px;
+        grid-gap: 250px;
+        top: 500px;
     }
 
     .chapter-button-previous,
@@ -207,7 +213,6 @@
     h3 {
         font-size: 0.838rem;
     }
-
 }
 
 @media (max-width: 400px) {
@@ -228,7 +233,7 @@
     }
 
     .content-list {
-        top: 265px;
+        top: 296px;
         width: 200px;
         margin-left: -110px;
     }
